@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    /* ---- Salida ---- */
+    "outDir": "dist" /* Carpeta de salida después de compilar */,
+    "rootDir": "src" /* Carpeta de código fuente */,
+
+    /* ---- Módulos y JS ---- */
+    "target": "ES2020" /* Versión de JS a compilar */,
+    "module": "CommonJS" /* Estándar para Node.js */,
+    "moduleResolution": "node" /* Resolver imports como Node */,
+
+    /* ---- Compatibilidad ---- */
+    "esModuleInterop": true /* Permitir importaciones de módulos CommonJS */,
+    "resolveJsonModule": true /* Importar archivos .json */,
+    "allowSyntheticDefaultImports": true,
+
+    /* ---- Calidad ---- */
+    "strict": true /* Habilita todas las comprobaciones estrictas */,
+    "skipLibCheck": true /* Ignora chequeos en libs de terceros */,
+    "forceConsistentCasingInFileNames": true,
+
+    /* ---- Mapas de depuración ---- */
+    "sourceMap": true /* Genera archivos .map para depurar TS en Node */
+  },
+  "include": ["src"] /* Solo compilar la carpeta src */,
+  "exclude": ["node_modules", "dist"]
+}
