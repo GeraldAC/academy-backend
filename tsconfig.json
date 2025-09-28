@@ -5,7 +5,7 @@
     "rootDir": "src" /* Carpeta de código fuente */,
 
     /* ---- Módulos y JS ---- */
-    "target": "ES2020" /* Versión de JS a compilar */,
+    "target": "ES2022" /* Versión de JS a compilar */,
     "module": "CommonJS" /* Estándar para Node.js */,
     "moduleResolution": "node" /* Resolver imports como Node */,
 
@@ -18,6 +18,7 @@
     "strict": true /* Habilita todas las comprobaciones estrictas */,
     "skipLibCheck": true /* Ignora chequeos en libs de terceros */,
     "forceConsistentCasingInFileNames": true,
+    "noEmitOnError": true,
 
     /* ---- Mapas de depuración ---- */
     "sourceMap": true /* Genera archivos .map para depurar TS en Node */

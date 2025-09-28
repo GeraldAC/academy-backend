@@ -1,5 +1,5 @@
-import express, { Request, Response } from "express";
-import dotenv from "dotenv";
+import express, { Request, Response } from 'express';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -10,10 +10,10 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 // Ruta de prueba
-app.get("/", (req: Request, res: Response) => {
-  res.send("🚀 Backend con Express + TypeScript funcionando!");
+app.get('/', (req: Request, res: Response) => {
+  res.send('[>] Backend con Express + TypeScript funcionando!');
 });
 
 app.listen(PORT, () => {
-  console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`[>] Servidor corriendo en http://localhost:${PORT}`);
 });
