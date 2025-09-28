@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     /* ---- Salida ---- */
-    "outDir": "dist" /* Carpeta de salida después de compilar */,
-    "rootDir": "src" /* Carpeta de código fuente */,
+    "outDir": "./dist" /* Carpeta de salida después de compilar */,
+    "rootDir": "./src" /* Carpeta de código fuente */,
 
     /* ---- Módulos y JS ---- */
     "target": "ES2022" /* Versión de JS a compilar */,
@@ -21,7 +21,8 @@
     "noEmitOnError": true,
 
     /* ---- Mapas de depuración ---- */
-    "sourceMap": true /* Genera archivos .map para depurar TS en Node */
+    "sourceMap": true /* Genera archivos .map para depurar TS en Node */,
+    "types": ["node", "express"]
   },
   "include": ["src"] /* Solo compilar la carpeta src */,
   "exclude": ["node_modules", "dist"]
