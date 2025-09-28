@@ -21,8 +21,7 @@
     "noEmitOnError": true,
 
     /* ---- Mapas de depuración ---- */
-    "sourceMap": true /* Genera archivos .map para depurar TS en Node */,
-    "types": ["node", "express"]
+    "sourceMap": true /* Genera archivos .map para depurar TS en Node */
   },
   "include": ["src"] /* Solo compilar la carpeta src */,
   "exclude": ["node_modules", "dist"]
