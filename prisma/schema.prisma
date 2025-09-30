@@ -1,6 +1,11 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -70,7 +75,7 @@ model User {
   payments           Payment[]      @relation("StudentPayments")
   recordedPayments   Payment[]      @relation("AdminRecordedPayments")
   reservations       Reservation[]  @relation("StudentReservations")
-  notifications      Notification[] @relation("UserNotifications")
+  notifications      Notification[]
 
   @@index([role])
   @@index([email])
@@ -157,7 +162,7 @@ model Attendance {
   @@unique([studentId, courseId, classDate])
   @@index([studentId, courseId])
   @@index([classDate])
-  @@map("attendance")
+  @@map("attendances")
 }
 
 model Payment {
@@ -220,7 +225,7 @@ model Notification {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
 
   // Relaciones
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade, name: "UserNotifications")
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, isRead])
   @@map("notifications")
