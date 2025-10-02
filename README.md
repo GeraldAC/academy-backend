@@ -74,4 +74,4 @@ backend-express-ts/
 
 ## 👨‍💻 Equipo
 
-- ArkTeam
+- ArcTeam
