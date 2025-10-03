@@ -3,6 +3,7 @@ import { RegisterDto } from '../dtos/register.dto';
 import { LoginDto } from '../dtos/login.dto';
 import { hashPassword, comparePassword } from '../../../utils/hash.util';
 import { signJwt } from '../../../utils/jwt.util';
+import { userToResponse } from '../../users/mappers/users.mapper';
 
 export class AuthService {
   private usersRepo = new UsersRepository();
@@ -16,7 +17,10 @@ export class AuthService {
     const user = await this.usersRepo.create({ ...rest, passwordHash });
 
     const token = signJwt({ id: user.id, role: user.role });
-    return { user: { ...user, passwordHash: undefined }, token };
+    return {
+      user: userToResponse(user),
+      token,
+    };
   }
 
   async login(dto: LoginDto) {
@@ -27,6 +31,9 @@ export class AuthService {
     if (!isValid) throw { status: 401, message: 'Invalid credentials' };
 
     const token = signJwt({ id: user.id, role: user.role });
-    return { user: { ...user, passwordHash: undefined }, token };
+    return {
+      user: userToResponse(user),
+      token,
+    };
   }
 }
