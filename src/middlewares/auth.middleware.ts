@@ -7,7 +7,7 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction) 
   if (!token) return res.status(401).json({ message: 'Unauthorized' });
 
   try {
-    const decoded = jwt.verify(token, env.DIRECT_URL);
+    const decoded = jwt.verify(token, env.JWT_SECRET);
     (req as any).user = decoded;
     next();
   } catch {

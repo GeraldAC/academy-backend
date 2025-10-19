@@ -48,4 +48,40 @@ export class UsersController {
       next(err);
     }
   }
+  // ==========================================
+  // CONTROLADORES PARA PERFIL
+  // ==========================================
+
+  // GET /api/users/me - Obtener mi perfil
+  static async getMyProfile(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = (req as any).user.id; // Del authMiddleware
+      const profile = await service.getMyProfile(userId);
+      res.json(profile);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  // PUT /api/users/me - Actualizar mi perfil
+  static async updateMyProfile(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = (req as any).user.id; // Del authMiddleware
+      const updated = await service.updateMyProfile(userId, req.body);
+      res.json(updated);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  // PUT /api/users/me/password - Cambiar mi contraseña
+  static async updateMyPassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = (req as any).user.id; // Del authMiddleware
+      await service.updateMyPassword(userId, req.body);
+      res.json({ message: 'Password updated successfully' });
+    } catch (err) {
+      next(err);
+    }
+  }
 }
