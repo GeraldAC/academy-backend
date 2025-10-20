@@ -14,10 +14,6 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-// =============================================
-// ENUMS
-// =============================================
-
 enum Role {
   STUDENT
   TEACHER
@@ -50,10 +46,6 @@ enum ClassType {
   REINFORCEMENT
 }
 
-// =============================================
-// CORE MODELS
-// =============================================
-
 model User {
   id           String   @id @default(uuid()) @db.Uuid
   email        String   @unique @db.VarChar(255)
@@ -67,7 +59,6 @@ model User {
   createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
   updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
-  // Relaciones
   teachingCourses    Course[]       @relation("TeacherCourses")
   enrollments        Enrollment[]   @relation("StudentEnrollments")
   attendanceRecords  Attendance[]   @relation("StudentAttendance")
@@ -95,7 +86,6 @@ model Course {
   createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
   updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
-  // Relaciones
   teacher      User          @relation("TeacherCourses", fields: [teacherId], references: [id], onDelete: Restrict)
   enrollments  Enrollment[]
   attendance   Attendance[]
@@ -115,7 +105,6 @@ model Schedule {
   isActive  Boolean   @default(true) @map("is_active")
   createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
 
-  // Relaciones
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   @@unique([courseId, weekDay, startTime])
@@ -132,7 +121,6 @@ model Enrollment {
   createdAt      DateTime         @default(now()) @map("created_at") @db.Timestamptz
   updatedAt      DateTime         @updatedAt @map("updated_at") @db.Timestamptz
 
-  // Relaciones
   student User   @relation("StudentEnrollments", fields: [studentId], references: [id], onDelete: Cascade)
   course  Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
@@ -154,7 +142,6 @@ model Attendance {
   createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
   updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
-  // Relaciones
   student  User   @relation("StudentAttendance", fields: [studentId], references: [id], onDelete: Cascade)
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
   recorder User?  @relation("TeacherRecordedAttendance", fields: [recordedBy], references: [id])
@@ -180,7 +167,6 @@ model Payment {
   createdAt     DateTime      @default(now()) @map("created_at") @db.Timestamptz
   updatedAt     DateTime      @updatedAt @map("updated_at") @db.Timestamptz
 
-  // Relaciones
   student  User  @relation("StudentPayments", fields: [studentId], references: [id], onDelete: Cascade)
   recorder User? @relation("AdminRecordedPayments", fields: [recordedBy], references: [id])
 
@@ -201,7 +187,6 @@ model Reservation {
   createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz
   updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz
 
-  // Relaciones
   student User   @relation("StudentReservations", fields: [studentId], references: [id], onDelete: Cascade)
   course  Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
@@ -212,10 +197,6 @@ model Reservation {
   @@map("reservations")
 }
 
-// =============================================
-// NOTIFICATION SYSTEM (SIMPLIFIED)
-// =============================================
-
 model Notification {
   id        String   @id @default(uuid()) @db.Uuid
   userId    String   @map("user_id") @db.Uuid
@@ -224,7 +205,6 @@ model Notification {
   isRead    Boolean  @default(false) @map("is_read")
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
 
-  // Relaciones
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, isRead])
