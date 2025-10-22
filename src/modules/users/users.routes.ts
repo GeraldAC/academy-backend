@@ -4,6 +4,8 @@ import { validate } from '../../middlewares/validate.middleware';
 import { UserValidators } from './validators/users.validator';
 import { authMiddleware } from '../../middlewares/auth.middleware';
 
+
+
 const router = Router();
 
 
