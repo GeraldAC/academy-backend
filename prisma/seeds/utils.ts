@@ -25,6 +25,9 @@ export function uniqueDniGenerator(count: number) {
  * Generate unique emails for given count. Optionally pass domain.
  */
 export function uniqueEmailGenerator(count: number, domain = 'example.com') {
+  // 🔒 Fijar la semilla: mismo número = mismos resultados siempre
+  faker.seed(1234);
+
   const set = new Set<string>();
   while (set.size < count) {
     const first = faker.person

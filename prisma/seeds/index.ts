@@ -1,17 +1,19 @@
-// prisma/seeds/index.ts
 import { PrismaClient } from '@prisma/client';
 import { seedUsers } from './users.seed';
+import { seedCourses } from './courses.seed';
 
 const prisma = new PrismaClient();
 
 export async function runAllSeeds() {
   console.log('🌱 Starting seeds...');
   try {
-    // Conexión ya creada por PrismaClient instanciado arriba.
-    await seedUsers(prisma, { admins: 1, teachers: 8, students: 120 });
+    // 1. Primero crear usuarios (admins, teachers, students)
+    await seedUsers(prisma, { admins: 1, teachers: 8, students: 80 });
+
+    // 2. Crear cursos (requiere teachers)
+    await seedCourses(prisma);
 
     // Añade aquí los seeds que necesiten users:
-    // await seedCourses(prisma);
     // await seedSchedules(prisma);
     // await seedEnrollments(prisma);
     // await seedPayments(prisma);
