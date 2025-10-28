@@ -3,7 +3,7 @@ import { RegisterDto } from '../dtos/register.dto';
 import { LoginDto } from '../dtos/login.dto';
 import { hashPassword, comparePassword } from '../../../utils/hash.util';
 import { signJwt, verifyJwt } from '../../../utils/jwt.util';
-import { userToResponse } from '../../users/mappers/users.mapper';
+import { UserMapper } from '../../users/mappers/users.mapper';
 
 export class AuthService {
   private usersRepo = new UsersRepository();
@@ -17,7 +17,7 @@ export class AuthService {
 
     const token = signJwt({ id: user.id, role: user.role });
     return {
-      user: userToResponse(user),
+      user: UserMapper.toResponse(user),
       token,
     };
   }
@@ -32,7 +32,7 @@ export class AuthService {
     if (!user) throw { status: 404, message: 'User not found' };
 
     const newToken = signJwt({ id: user.id, role: user.role });
-    return { newToken, user: userToResponse(user) };
+    return { newToken, user: UserMapper.toResponse(user) };
   }
 
   async register(dto: RegisterDto) {
@@ -45,7 +45,7 @@ export class AuthService {
 
     const token = signJwt({ id: user.id, role: user.role });
     return {
-      user: userToResponse(user),
+      user: UserMapper.toResponse(user),
       token,
     };
   }
