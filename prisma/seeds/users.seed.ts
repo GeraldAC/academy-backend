@@ -64,7 +64,7 @@ export async function seedUsers(
     });
   }
 
-  // Admins | Test: bernadine.schneider965@unsaac.edu.pe
+  // Admins | Test: claude.kessler785@unsaac.edu.pe | Admin123!
   for (let i = 0; i < admins; i++) {
     const { firstName, lastName } = randomFullName();
     const email = emails[idx];
@@ -74,7 +74,7 @@ export async function seedUsers(
     console.log(` -> ADMIN: ${email}`);
   }
 
-  // Teachers | Test: ervin.trantow78@unsaac.edu.pe
+  // Teachers | Test: joanne.hand879@unsaac.edu.pe | Teacher123!
   for (let i = 0; i < teachers; i++) {
     const { firstName, lastName } = randomFullName();
     const email = emails[idx];
@@ -84,7 +84,7 @@ export async function seedUsers(
     console.log(` -> TEACHER: ${email}`);
   }
 
-  // Students | Test: sydnee.mayer501@unsaac.edu.pe
+  // Students | Test: jamir.stracke752@unsaac.edu.pe | Student123!
   for (let i = 0; i < students; i++) {
     const { firstName, lastName } = randomFullName();
     const email = emails[idx];
