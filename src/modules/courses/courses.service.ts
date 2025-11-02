@@ -237,4 +237,39 @@ export class CoursesService {
       availableCapacity: course.capacity - course._count.enrollments,
     };
   }
+  // ========================================
+  // Metodo para (Ver mis cursos)
+  // ========================================
+
+  async getMyCourses(teacherId: string) {
+    const courses = await prisma.course.findMany({
+      where: {
+        teacherId,
+      },
+      include: {
+        _count: {
+          select: {
+            enrollments: true,
+          },
+        },
+        schedules: {
+          where: {
+            isActive: true,
+          },
+          orderBy: [{ weekDay: 'asc' }, { startTime: 'asc' }],
+        },
+      },
+      orderBy: {
+        name: 'asc',
+      },
+    });
+
+    return {
+      courses: courses.map((course) => ({
+        ...course,
+        monthlyPrice: Number(course.monthlyPrice),
+      })),
+      total: courses.length,
+    };
+  }
 }

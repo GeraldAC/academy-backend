@@ -66,3 +66,31 @@ export const availableUserSchema = z.object({
     .transform((val) => val === 'true')
     .optional(),
 });
+
+export interface MyCoursesResponse {
+  courses: Array<{
+    id: string;
+    name: string;
+    description: string | null;
+    subject: string;
+    teacherId: string;
+    capacity: number;
+    monthlyPrice: number;
+    isActive: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    _count?: {
+      enrollments: number;
+    };
+    schedules?: Array<{
+      id: string;
+      courseId: string;
+      weekDay: string;
+      startTime: Date;
+      endTime: Date;
+      classType: string;
+      isActive: boolean;
+    }>;
+  }>;
+  total: number;
+}

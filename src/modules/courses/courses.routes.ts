@@ -14,6 +14,9 @@ const controller = new CoursesController();
 
 // Todas las rutas requieren autenticación
 router.use(authMiddleware);
+// ========================================
+// RUTAS PARA TEACHER (Ver mis cursos)
+router.get('/my-courses', controller.getMyCourses.bind(controller));
 
 // ---------------------------------------------------------------------------
 
