@@ -6,6 +6,7 @@ import { coursesModule } from '../modules/courses';
 import { AdminDashboardController } from '../modules/dashboard/admin/admin-dashboard.controller';
 import { TeacherDashboardController } from '../modules/dashboard/teacher/teacher-dashboard.controller';
 import { StudentDashboardController } from '../modules/dashboard/student/student-dashboard.controller';
+import enrollmentsRoutes from '../modules/enrollments';
 
 const router = Router();
 
@@ -16,7 +17,7 @@ const studentController = new StudentDashboardController();
 router.use('/users', usersModule.routes);
 router.use('/auth', authModule.routes);
 router.use('/courses', coursesModule.routes);
-
+router.use('/enrollments', enrollmentsRoutes);
 // Admin routes
 router.get('/dashboard/admin', (req, res) => adminController.getDashboard(req, res));
 
