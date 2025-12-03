@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { EnrollmentsService } from './enrollments.service';
-import { CreateEnrollmentDto } from './enrollments.types';
+import { CreateEnrollmentDto, UpdateEnrollmentStatusDto } from './enrollments.types';
 
 const service = new EnrollmentsService();
 
@@ -28,12 +28,33 @@ export class EnrollmentsController {
     }
   }
 
-  // 🆕 NUEVO: Obtener estudiantes disponibles para matricular
   async getAvailableStudents(req: Request, res: Response, next: NextFunction) {
     try {
       const { courseId } = req.params;
       const students = await service.getAvailableStudents(courseId);
       res.json(students);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  // 🆕 NUEVO: Actualizar estado de matrícula
+  async updateEnrollmentStatus(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const data: UpdateEnrollmentStatusDto = req.body;
+      const result = await service.updateEnrollmentStatus(id, data);
+
+      const statusMessages = {
+        ACTIVE: 'Matrícula reactivada exitosamente',
+        CANCELLED: 'Matrícula cancelada exitosamente',
+        COMPLETED: 'Matrícula marcada como completada',
+      };
+
+      res.json({
+        message: statusMessages[data.status],
+        data: result,
+      });
     } catch (error) {
       next(error);
     }

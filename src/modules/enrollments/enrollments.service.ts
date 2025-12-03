@@ -1,6 +1,5 @@
-import { PrismaClient } from '@prisma/client';
-import { CreateEnrollmentDto } from './enrollments.types';
-
+import { PrismaClient, EnrollmentStatus } from '@prisma/client';
+import { CreateEnrollmentDto, UpdateEnrollmentStatusDto } from './enrollments.types';
 const prisma = new PrismaClient();
 
 export class EnrollmentsService {
@@ -84,7 +83,7 @@ export class EnrollmentsService {
     });
   }
 
-  // 🆕 NUEVO: Obtener estudiantes disponibles para matricular
+  //  Obtener estudiantes disponibles para matricular
   async getAvailableStudents(courseId: string) {
     // Obtener IDs de estudiantes ya matriculados en este curso (matrículas activas)
     const enrolledStudents = await prisma.enrollment.findMany({
@@ -119,7 +118,66 @@ export class EnrollmentsService {
       },
     });
   }
+  // NUEVO: Actualizar estado de matrícula
+  async updateEnrollmentStatus(id: string, data: UpdateEnrollmentStatusDto) {
+    const { status } = data;
 
+    // Verificar que la matrícula existe
+    const enrollment = await prisma.enrollment.findUnique({
+      where: { id },
+      include: {
+        student: {
+          select: {
+            firstName: true,
+            lastName: true,
+          },
+        },
+        course: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+
+    if (!enrollment) {
+      throw new Error('Enrollment not found');
+    }
+
+    // Validar transiciones de estado
+    const currentStatus = enrollment.status;
+
+    // No permitir cambios desde COMPLETED
+    if (currentStatus === 'COMPLETED' && status !== 'COMPLETED') {
+      throw new Error('Cannot change status of a completed enrollment');
+    }
+
+    // Actualizar estado
+    const updated = await prisma.enrollment.update({
+      where: { id },
+      data: { status: status as EnrollmentStatus },
+      include: {
+        student: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            dni: true,
+            phone: true,
+          },
+        },
+        course: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    });
+
+    return updated;
+  }
   // Eliminar matrícula (cancelar)
   async deleteEnrollment(id: string) {
     // Cambiar el estado a CANCELLED en lugar de eliminar
