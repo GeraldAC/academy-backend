@@ -1,4 +1,3 @@
-// backend/src/modules/users/services/users.service.ts
 import bcrypt from 'bcrypt';
 import { UsersRepository } from '../repositories/users.repository';
 import { CreateUserDto, UpdateUserDto, UserFiltersDto } from '../dtos/create-user.dto';
@@ -28,7 +27,7 @@ export class UsersService {
       dni: data.dni,
       role: data.role,
       phone: data.phone,
-      isActive: true
+      isActive: true,
     });
 
     return UserMapper.toResponse(user);
@@ -48,7 +47,7 @@ export class UsersService {
         { firstName: { contains: filters.search, mode: 'insensitive' } },
         { lastName: { contains: filters.search, mode: 'insensitive' } },
         { email: { contains: filters.search, mode: 'insensitive' } },
-        { dni: { contains: filters.search } }
+        { dni: { contains: filters.search } },
       ];
     }
 
@@ -57,9 +56,9 @@ export class UsersService {
         where,
         skip,
         take: limit,
-        orderBy: { createdAt: 'desc' }
+        orderBy: { createdAt: 'desc' },
       }),
-      this.repository.count(where)
+      this.repository.count(where),
     ]);
 
     return {
@@ -68,8 +67,8 @@ export class UsersService {
         total,
         page,
         limit,
-        totalPages: Math.ceil(total / limit)
-      }
+        totalPages: Math.ceil(total / limit),
+      },
     };
   }
 
@@ -97,7 +96,7 @@ export class UsersService {
     if (!user) throw new Error('Usuario no encontrado');
 
     const updatedUser = await this.repository.update(id, {
-      isActive: !user.isActive
+      isActive: !user.isActive,
     });
 
     return UserMapper.toResponse(updatedUser);
@@ -113,28 +112,28 @@ export class UsersService {
   }
 
   async updatePassword(userId: string, currentPassword: string, newPassword: string) {
-  const user = await this.repository.findById(userId);
-  
-  if (!user) {
-    throw new Error('Usuario no encontrado');
+    const user = await this.repository.findById(userId);
+
+    if (!user) {
+      throw new Error('Usuario no encontrado');
+    }
+
+    // Verificar contraseña actual
+    const isValidPassword = await bcrypt.compare(currentPassword, user.passwordHash);
+
+    if (!isValidPassword) {
+      throw new Error('La contraseña actual es incorrecta');
+    }
+
+    // Hash de nueva contraseña
+    const newPasswordHash = await bcrypt.hash(newPassword, 10);
+
+    await this.repository.update(userId, {
+      passwordHash: newPasswordHash,
+    });
+
+    return { message: 'Contraseña actualizada correctamente' };
   }
-
-  // Verificar contraseña actual
-  const isValidPassword = await bcrypt.compare(currentPassword, user.passwordHash);
-  
-  if (!isValidPassword) {
-    throw new Error('La contraseña actual es incorrecta');
-  }
-
-  // Hash de nueva contraseña
-  const newPasswordHash = await bcrypt.hash(newPassword, 10);
-
-  await this.repository.update(userId, { 
-    passwordHash: newPasswordHash 
-  });
-
-  return { message: 'Contraseña actualizada correctamente' };
-}
 
   async resetPassword(id: string, newPassword: string) {
     const user = await this.repository.findById(id);
@@ -152,14 +151,14 @@ export class UsersService {
       this.repository.countActive(),
       this.repository.countByRole('STUDENT'),
       this.repository.countByRole('TEACHER'),
-      this.repository.countByRole('ADMIN')
+      this.repository.countByRole('ADMIN'),
     ]);
 
     return {
       totalUsers,
       activeUsers,
       inactiveUsers: totalUsers - activeUsers,
-      byRole: { students, teachers, admins }
+      byRole: { students, teachers, admins },
     };
   }
 }
