@@ -61,6 +61,7 @@ model Schedule {
   weekDay   WeekDay   @map("week_day")
   startTime DateTime  @map("start_time") @db.Time(6)
   endTime   DateTime  @map("end_time") @db.Time(6)
+  classroom String?   @db.VarChar(50)
   classType ClassType @default(REGULAR) @map("class_type")
   isActive  Boolean   @default(true) @map("is_active")
   createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
