@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { usersModule } from '../modules/users';
 import { authModule } from '../modules/auth';
 import { coursesModule } from '../modules/courses';
+import { attendanceRouter } from '../modules/attendance';
 
 import { AdminDashboardController } from '../modules/dashboard/admin/admin-dashboard.controller';
 import { TeacherDashboardController } from '../modules/dashboard/teacher/teacher-dashboard.controller';
@@ -18,6 +19,7 @@ router.use('/users', usersModule.routes);
 router.use('/auth', authModule.routes);
 router.use('/courses', coursesModule.routes);
 router.use('/enrollments', enrollmentsRoutes);
+router.use('/attendance', attendanceRouter);
 // Admin routes
 router.get('/dashboard/admin', (req, res) => adminController.getDashboard(req, res));
 
