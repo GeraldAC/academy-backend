@@ -186,4 +186,34 @@ export class EnrollmentsService {
       data: { status: 'CANCELLED' },
     });
   }
+
+  // Obtener mis matrículas (Estudiante)
+  async getMyEnrollments(studentId: string) {
+    return prisma.enrollment.findMany({
+      where: {
+        studentId,
+        status: 'ACTIVE', // Solo mostrar cursos activos
+      },
+      include: {
+        course: {
+          select: {
+            id: true,
+            name: true,
+            subject: true,
+            description: true,
+            monthlyPrice: true,
+            teacher: {
+              select: {
+                firstName: true,
+                lastName: true,
+                email: true,
+              },
+            },
+            schedules: true,
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
 }

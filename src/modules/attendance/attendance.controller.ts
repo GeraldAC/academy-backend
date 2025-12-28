@@ -88,4 +88,35 @@ export class AttendanceController {
       next(error);
     }
   }
+
+  // Estadísticas generales (Admin/Teacher)
+  async getStats(req: Request, res: Response, next: NextFunction) {
+    try {
+      const query = req.query as {
+        courseId?: string;
+        startDate?: string;
+        endDate?: string;
+      };
+      const stats = await service.getStats(query);
+      res.json(stats);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  // Reporte detallado (Admin/Teacher)
+  async getReport(req: Request, res: Response, next: NextFunction) {
+    try {
+      const query = req.query as {
+        courseId?: string;
+        studentId?: string;
+        startDate?: string;
+        endDate?: string;
+      };
+      const report = await service.getReport(query);
+      res.json(report);
+    } catch (error) {
+      next(error);
+    }
+  }
 }

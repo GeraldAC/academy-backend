@@ -5,10 +5,11 @@
     "outDir": "dist" /* Carpeta de salida después de compilar */,
 
     /* ---- Módulos y JS ---- */
-    
+
     "target": "ES2022" /* Versión de JS a compilar */,
     "module": "CommonJS" /* Estándar para Node.js */,
     "moduleResolution": "node" /* Resolver imports como Node */,
+    "typeRoots": ["./node_modules/@types", "./src/types"],
 
     /* ---- Compatibilidad ---- */
     "esModuleInterop": true /* Permitir importaciones de módulos CommonJS */,

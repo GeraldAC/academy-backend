@@ -238,7 +238,7 @@ export class CoursesService {
     };
   }
   // ========================================
-  // Metodo para (Ver mis cursos)
+  // Metodo para ver mis cursos
   // ========================================
 
   async getMyCourses(teacherId: string) {
@@ -270,6 +270,53 @@ export class CoursesService {
         monthlyPrice: Number(course.monthlyPrice),
       })),
       total: courses.length,
+    };
+  }
+
+  async getStudentCourses(studentId: string) {
+    const enrollments = await prisma.enrollment.findMany({
+      where: {
+        studentId,
+        status: 'ACTIVE',
+      },
+      include: {
+        course: {
+          include: {
+            teacher: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true,
+              },
+            },
+            _count: {
+              select: {
+                enrollments: true,
+              },
+            },
+            schedules: {
+              where: {
+                isActive: true,
+              },
+              orderBy: [{ weekDay: 'asc' }, { startTime: 'asc' }],
+            },
+          },
+        },
+      },
+      orderBy: {
+        enrollmentDate: 'desc',
+      },
+    });
+
+    return {
+      courses: enrollments.map((enrollment) => ({
+        ...enrollment.course,
+        monthlyPrice: Number(enrollment.course.monthlyPrice),
+        enrollmentDate: enrollment.enrollmentDate,
+        enrollmentStatus: enrollment.status,
+      })),
+      total: enrollments.length,
     };
   }
 }

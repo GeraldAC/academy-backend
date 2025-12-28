@@ -20,6 +20,7 @@ router.use('/auth', authModule.routes);
 router.use('/courses', coursesModule.routes);
 router.use('/enrollments', enrollmentsRoutes);
 router.use('/attendance', attendanceRouter);
+
 // Admin routes
 router.get('/dashboard/admin', (req, res) => adminController.getDashboard(req, res));
 

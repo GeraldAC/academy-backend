@@ -19,6 +19,9 @@ router.post(
 // Obtener estudiantes disponibles para matricular en un curso
 router.get('/available/:courseId', controller.getAvailableStudents.bind(controller));
 
+// Obtener mis matrículas (Estudiante)
+router.get('/my-enrollments', controller.getMyEnrollments.bind(controller));
+
 // Listar estudiantes matriculados por curso
 router.get('/course/:courseId', controller.getEnrolledStudents.bind(controller));
 

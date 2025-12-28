@@ -88,4 +88,14 @@ export class CoursesController {
       next(error);
     }
   }
+
+  async getStudentCourses(req: Request, res: Response, next: NextFunction) {
+    try {
+      const studentId = (req as any).user.id; // Del authMiddleware
+      const result = await coursesService.getStudentCourses(studentId);
+      res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
 }

@@ -72,4 +72,20 @@ export class EnrollmentsController {
       next(error);
     }
   }
+
+  async getMyEnrollments(req: Request, res: Response, next: NextFunction) {
+    try {
+      // User is attached by auth middleware
+      const studentId = (req as any).user?.id;
+
+      if (!studentId) {
+        return res.status(401).json({ message: 'Usuario no autenticado' });
+      }
+
+      const result = await service.getMyEnrollments(studentId);
+      res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
