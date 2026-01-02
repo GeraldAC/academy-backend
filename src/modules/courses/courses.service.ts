@@ -37,6 +37,7 @@ export class CoursesService {
         phone: true,
         role: true,
         isActive: true,
+        dni: true,
       },
       orderBy: [{ lastName: 'asc' }, { firstName: 'asc' }],
     });

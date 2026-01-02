@@ -114,12 +114,12 @@ model Payment {
   id            String        @id @default(uuid()) @db.Uuid
   studentId     String        @map("student_id") @db.Uuid
   amount        Decimal       @db.Decimal(8, 2)
-  concept       String        @db.VarChar(100)
+  concept       String        @db.VarChar(255)
   paymentDate   DateTime      @default(now()) @map("payment_date") @db.Timestamptz(6)
   dueDate       DateTime?     @map("due_date") @db.Date
   status        PaymentStatus @default(PENDING)
   paymentMethod String?       @map("payment_method") @db.VarChar(30)
-  receiptNumber String?       @unique @map("receipt_number") @db.VarChar(20)
+  receiptNumber String?       @unique @map("receipt_number") @db.VarChar(50)
   notes         String?
   recordedBy    String?       @map("recorded_by") @db.Uuid
   createdAt     DateTime      @default(now()) @map("created_at") @db.Timestamptz(6)

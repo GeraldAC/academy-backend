@@ -18,11 +18,11 @@ app.use(express.json());
 async function testConnection() {
   try {
     await prisma.$connect();
-    console.log('✅ Base de datos conectada exitosamente');
+    console.log('[ ] Base de datos conectada exitosamente');
     const userCount = await prisma.user.count();
-    console.log(`📊 Usuarios en BD: ${userCount}`);
+    console.log(`[ ] Usuarios en BD: ${userCount}`);
   } catch (error) {
-    console.error('❌ Error conectando a BD:', error);
+    console.error('[ ] Error conectando a BD:', error);
   }
 }
 

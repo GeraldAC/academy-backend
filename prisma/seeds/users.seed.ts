@@ -22,7 +22,7 @@ export async function seedUsers(
   const teachers = options?.teachers ?? 5;
   const students = options?.students ?? 30;
 
-  console.log(`Seeding users: admins=${admins} teachers=${teachers} students=${students}`);
+  console.log(`[ ] Seeding users: admins=${admins} teachers=${teachers} students=${students}`);
 
   const total = admins + teachers + students;
   const dnis = uniqueDniGenerator(total);
@@ -74,7 +74,7 @@ export async function seedUsers(
     console.log(` -> ADMIN: ${email}`);
   }
 
-  // Teachers | Test: joanne.hand879@unsaac.edu.pe | Teacher123!
+  // Teachers | Test: vernon.herzog501@unsaac.edu.pe | Teacher123!
   for (let i = 0; i < teachers; i++) {
     const { firstName, lastName } = randomFullName();
     const email = emails[idx];
@@ -84,7 +84,7 @@ export async function seedUsers(
     console.log(` -> TEACHER: ${email}`);
   }
 
-  // Students | Test: jamir.stracke752@unsaac.edu.pe | Student123!
+  // Students | Test: torrey.hyatt788@unsaac.edu.pe | Student123!
   for (let i = 0; i < students; i++) {
     const { firstName, lastName } = randomFullName();
     const email = emails[idx];
@@ -94,5 +94,5 @@ export async function seedUsers(
     if ((i + 1) % 10 === 0) console.log(`   > ${i + 1} students created`);
   }
 
-  console.log('Users seed finished.');
+  console.log('[ ] Users seed finished.');
 }

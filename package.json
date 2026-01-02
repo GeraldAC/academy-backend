@@ -9,7 +9,7 @@
     "start": "node dist/src/index.js",
     "seed:dev": "ts-node --transpile-only prisma/seed.ts",
     "seed:prod": "node dist/prisma/seed.js",
-    "db:seed": "tsx prisma/seed.ts",
+    "db:seed": "prisma/seed.ts",
     "db:reset": "prisma migrate reset --force",
     "db:fresh": "npm run db:reset && npm run db:seed",
     "lint": "eslint \"src/**/*.{ts,js}\" --ext .ts",
