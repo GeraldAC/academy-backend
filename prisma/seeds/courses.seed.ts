@@ -154,7 +154,7 @@ const COURSE_TEMPLATES: CourseTemplate[] = [
  * - Usa upsert para idempotencia basado en nombre + materia
  */
 export async function seedCourses(prisma: PrismaClient, options?: { coursesCount?: number }) {
-  console.log('Seeding courses...');
+  console.log('[ ] Seeding courses...');
 
   // Obtener todos los teachers activos
   const teachers = await prisma.user.findMany({
@@ -209,7 +209,7 @@ export async function seedCourses(prisma: PrismaClient, options?: { coursesCount
     );
   }
 
-  console.log(`Courses seed finished. Created/updated ${templatesToUse.length} courses.`);
+  console.log(`[ ] Courses seed finished. Created/updated ${templatesToUse.length} courses.`);
 }
 
 /**

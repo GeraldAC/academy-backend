@@ -20,4 +20,8 @@ router.get('/course/:courseId/date/:date', controller.getByDate);
 router.get('/me/stats', controller.getMyStats);
 router.get('/me/history', controller.getMyHistory);
 
+// Rutas Generales (Admin/Docente)
+router.get('/stats', controller.getStats.bind(controller));
+router.get('/report', controller.getReport.bind(controller));
+
 export default router;

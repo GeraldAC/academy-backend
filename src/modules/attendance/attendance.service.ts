@@ -1,3 +1,4 @@
+// src\modules\attendance\attendance.service.ts
 import { PrismaClient } from '@prisma/client';
 import { RegisterAttendanceDto, AttendanceStatsDto } from './attendance.types';
 
@@ -47,7 +48,7 @@ export class AttendanceService {
   }
 
   /**
-   * Obtiene la asistencia registrada para un curso y fecha específica via.
+   * Obtiene la asistencia registrada para un curso y fecha específica.
    * Útil para que el docente vea lo que ya registró.
    */
   async getByCourseAndDate(courseId: string, date: string) {
@@ -71,15 +72,24 @@ export class AttendanceService {
   }
 
   /**
-   * Obtiene estadísticas de asistencia de un estudiante. */
-  async getStudentStats(studentId: string): Promise<AttendanceStatsDto> {
+   * Obtiene estadísticas de asistencia de un estudiante.
+   * MEJORADO: Ahora soporta filtro opcional por courseId
+   */
+  async getStudentStats(studentId: string, courseId?: string): Promise<AttendanceStatsDto> {
+    const where: any = { studentId };
+
+    // Agregar filtro de curso si se proporciona
+    if (courseId && courseId !== 'undefined') {
+      where.courseId = courseId;
+    }
+
     const totalClasses = await prisma.attendance.count({
-      where: { studentId },
+      where,
     });
 
     const attendedClasses = await prisma.attendance.count({
       where: {
-        studentId,
+        ...where,
         present: true,
       },
     });
@@ -96,16 +106,41 @@ export class AttendanceService {
   }
 
   /**
-   * Obtiene el historial detallado de asistencia de un estudiante. */
-  async getStudentHistory(studentId: string) {
+   * Obtiene el historial detallado de asistencia de un estudiante.
+   * MEJORADO: Ahora soporta filtro opcional por courseId
+   */
+  async getStudentHistory(studentId: string, courseId?: string) {
+    const where: any = { studentId };
+
+    // Agregar filtro de curso si se proporciona
+    if (courseId && courseId !== 'undefined') {
+      where.courseId = courseId;
+    }
+
     return await prisma.attendance.findMany({
-      where: { studentId },
+      where,
       include: {
         course: {
-          select: { name: true, subject: true },
+          select: {
+            id: true,
+            name: true,
+            subject: true,
+          },
+        },
+        student: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            dni: true,
+            email: true,
+          },
         },
         recorder: {
-          select: { firstName: true, lastName: true },
+          select: {
+            firstName: true,
+            lastName: true,
+          },
         },
       },
       orderBy: { classDate: 'desc' },
@@ -170,10 +205,20 @@ export class AttendanceService {
       where,
       include: {
         student: {
-          select: { firstName: true, lastName: true, dni: true, email: true },
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            dni: true,
+            email: true,
+          },
         },
         course: {
-          select: { name: true, subject: true },
+          select: {
+            id: true,
+            name: true,
+            subject: true,
+          },
         },
       },
       orderBy: { classDate: 'desc' },

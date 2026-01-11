@@ -1,3 +1,4 @@
+//src\modules\courses\courses.service.ts
 import { PrismaClient, Role } from '@prisma/client';
 import {
   CreateCourseDto,
@@ -37,6 +38,7 @@ export class CoursesService {
         phone: true,
         role: true,
         isActive: true,
+        dni: true,
       },
       orderBy: [{ lastName: 'asc' }, { firstName: 'asc' }],
     });
@@ -245,16 +247,38 @@ export class CoursesService {
     const courses = await prisma.course.findMany({
       where: {
         teacherId,
+        isActive: true, // Agregar este filtro si quieres solo cursos activos
       },
       include: {
-        _count: {
+        teacher: {
           select: {
-            enrollments: true,
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
           },
         },
+        _count: {
+          select: {
+            enrollments: {
+              where: { status: 'ACTIVE' },
+            },
+          },
+        },
+        // ESPECIFICA EXPLÍCITAMENTE los campos de schedules
         schedules: {
           where: {
             isActive: true,
+          },
+          // ¡IMPORTANTE! Selecciona solo los campos que existen
+          select: {
+            id: true,
+            weekDay: true,
+            startTime: true,
+            endTime: true,
+            classType: true,
+            isActive: true,
+            // Omitir classroom temporalmente o usar ?? para valor por defecto
           },
           orderBy: [{ weekDay: 'asc' }, { startTime: 'asc' }],
         },
@@ -268,6 +292,12 @@ export class CoursesService {
       courses: courses.map((course) => ({
         ...course,
         monthlyPrice: Number(course.monthlyPrice),
+        currentEnrollment: course._count.enrollments,
+        // Agregar classroom vacío si lo necesitas
+        schedules: course.schedules.map((schedule) => ({
+          ...schedule,
+          classroom: '', // Valor por defecto
+        })),
       })),
       total: courses.length,
     };
@@ -292,12 +322,24 @@ export class CoursesService {
             },
             _count: {
               select: {
-                enrollments: true,
+                enrollments: {
+                  where: { status: 'ACTIVE' },
+                },
               },
             },
+            // ESPECIFICA EXPLÍCITAMENTE los campos de schedules
             schedules: {
               where: {
                 isActive: true,
+              },
+              select: {
+                id: true,
+                weekDay: true,
+                startTime: true,
+                endTime: true,
+                classType: true,
+                isActive: true,
+                // Omitir classroom temporalmente
               },
               orderBy: [{ weekDay: 'asc' }, { startTime: 'asc' }],
             },
@@ -315,6 +357,13 @@ export class CoursesService {
         monthlyPrice: Number(enrollment.course.monthlyPrice),
         enrollmentDate: enrollment.enrollmentDate,
         enrollmentStatus: enrollment.status,
+        enrollmentNotes: enrollment.notes,
+        currentEnrollment: enrollment.course._count.enrollments,
+        // Agregar classroom vacío si lo necesitas
+        schedules: enrollment.course.schedules.map((schedule) => ({
+          ...schedule,
+          classroom: '', // Valor por defecto
+        })),
       })),
       total: enrollments.length,
     };
