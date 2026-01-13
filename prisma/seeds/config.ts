@@ -41,14 +41,14 @@ export const defaultConfig: SeedConfig = {
   cleanDatabase: true,
 
   seeds: {
-    users: true,
-    courses: true,
-    schedules: true,
-    enrollments: true,
-    attendance: true,
-    payments: true,
-    reservations: true,
-    notifications: true,
+    users: false,
+    courses: false,
+    schedules: false,
+    enrollments: false,
+    attendance: false,
+    payments: false,
+    reservations: false,
+    notifications: false,
   },
 
   quantities: {
