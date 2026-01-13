@@ -1,3 +1,4 @@
+// src\modules\attendance\attendance.routes.ts
 import { Router } from 'express';
 import { AttendanceController } from './attendance.controller';
 // Asumiendo que tienes estos middlewares disponibles globalmente o los importas
@@ -9,6 +10,18 @@ const controller = new AttendanceController();
 
 // Todas las rutas requieren autenticación
 router.use(authMiddleware);
+
+// Descargar PDF de asistencia de un estudiante
+router.get('/student/:studentId/pdf', controller.downloadStudentPDF.bind(controller));
+
+// Descargar PDF de reporte general
+router.get('/report/pdf', controller.downloadReportPDF.bind(controller));
+
+// Obtener historial de asistencia de un estudiante específico
+router.get('/student/:studentId', controller.getStudentHistoryById.bind(controller));
+
+// Obtener estadísticas de un estudiante específico
+router.get('/student/:studentId/stats', controller.getStudentStatsById.bind(controller));
 
 // Rutas para Docentes
 // Agregar middleware de rol 'TEACHER' si es necesario
