@@ -1,7 +1,7 @@
 // backend/src/controllers/users.controller.ts
 import { Request, Response } from 'express';
 
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 import prisma from '../config/prisma'; // ✅ AGREGAR al inicio
 

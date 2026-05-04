@@ -9,6 +9,7 @@
     "target": "ES2022" /* Versión de JS a compilar */,
     "module": "CommonJS" /* Estándar para Node.js */,
     "moduleResolution": "node" /* Resolver imports como Node */,
+    "ignoreDeprecations": "6.0",
     "typeRoots": ["./node_modules/@types", "./src/types"],
 
     /* ---- Compatibilidad ---- */

@@ -287,7 +287,7 @@ export const getStudentEnrollments = async (studentId: string) => {
               weekDay: true,
               startTime: true,
               endTime: true,
-              classroom: true,
+              //classroom: true,
               classType: true,
               isActive: true,
             },

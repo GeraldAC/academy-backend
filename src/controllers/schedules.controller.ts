@@ -162,7 +162,7 @@ export const createSchedule = async (req: Request, res: Response) => {
         weekDay: dayOfWeek,
         startTime: new Date(`1970-01-01T${startTime}`),
         endTime: new Date(`1970-01-01T${endTime}`),
-        classroom: classroom || null,
+        //classroom: classroom || null,
       },
       include: {
         course: {

@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { UsersRepository } from '../repositories/users.repository';
 import { CreateUserDto, UpdateUserDto, UserFiltersDto } from '../dtos/create-user.dto';
 import { UserMapper } from '../mappers/users.mapper';
