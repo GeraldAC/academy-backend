@@ -5,10 +5,9 @@ import { TeacherDashboardService } from './teacher-dashboard.service';
 const service = new TeacherDashboardService();
 
 export class TeacherDashboardController {
-  
   async getDashboard(req: Request, res: Response) {
     try {
-      const teacherId = req.params.id;
+      const teacherId = req.params['id'];
 
       const [stats, courses, engagement, submissions, classes, messages] = await Promise.all([
         service.getTeacherStats(teacherId),
@@ -16,7 +15,7 @@ export class TeacherDashboardController {
         service.getStudentEngagement(teacherId),
         service.getRecentSubmissions(teacherId),
         service.getUpcomingClasses(teacherId),
-        service.getMessages(teacherId)
+        service.getMessages(teacherId),
       ]);
 
       res.json({
@@ -25,12 +24,12 @@ export class TeacherDashboardController {
         engagement,
         submissions,
         classes,
-        messages
+        messages,
       });
     } catch (error) {
-      res.status(500).json({ 
+      res.status(500).json({
         error: 'Error fetching teacher dashboard',
-        message: error instanceof Error ? error.message : 'Unknown error'
+        message: error instanceof Error ? error.message : 'Unknown error',
       });
     }
   }
