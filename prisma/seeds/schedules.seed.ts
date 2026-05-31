@@ -9,7 +9,7 @@ const TIME_SLOTS = [
   { start: '16:00:00', end: '18:00:00' },
 ];
 
-const CLASSROOMS = ['A101', 'A102', 'B201', 'B202', 'C301', 'Lab-1', 'Lab-2'];
+// const CLASSROOMS = ['A101', 'A102', 'B201', 'B202', 'C301', 'Lab-1', 'Lab-2'];
 
 export async function seedSchedules(prisma: PrismaClient) {
   console.log('[ ] Seeding schedules...');
@@ -25,7 +25,7 @@ export async function seedSchedules(prisma: PrismaClient) {
 
     for (const day of selectedDays) {
       const timeSlot = TIME_SLOTS[Math.floor(Math.random() * TIME_SLOTS.length)];
-      const classroom = CLASSROOMS[Math.floor(Math.random() * CLASSROOMS.length)];
+      // const classroom = CLASSROOMS[Math.floor(Math.random() * CLASSROOMS.length)];
 
       await prisma.schedule.create({
         data: {
@@ -33,7 +33,7 @@ export async function seedSchedules(prisma: PrismaClient) {
           weekDay: day,
           startTime: new Date(`1970-01-01T${timeSlot.start}`),
           endTime: new Date(`1970-01-01T${timeSlot.end}`),
-          classroom,
+          // classroom,
           classType: 'REGULAR',
           isActive: true,
         },

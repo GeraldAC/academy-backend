@@ -4,7 +4,7 @@ import { defaultConfig, devConfig, testConfig } from './seeds/config';
 async function main() {
   try {
     // Obtener configuración desde variable de entorno o usar default
-    const env = process.env.SEED_ENV || 'default';
+    const env = process.env['SEED_ENV'] || 'default';
 
     let config;
     switch (env) {

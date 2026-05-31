@@ -1,14 +1,18 @@
 {
   "compilerOptions": {
     /* ---- Salida ---- */
-    "rootDir": "src" /* Solo compilar carpeta src */,
+    "rootDir": "." /* Solo compilar carpeta raíz */,
     "outDir": "dist" /* Carpeta de salida después de compilar */,
 
     /* ---- Módulos y JS ---- */
-    "target": "ES2024" /* Versión de JS a compilar - Soporte Node 20+ */,
+    "target": "ES2023" /* Versión de JS a compilar - Soporte Node 20+ */,
     "module": "Node16",
     "moduleResolution": "Node16",
-    "typeRoots": ["./node_modules/@types", "./src/types"],
+
+    "isolatedModules": true,
+
+    // "typeRoots": ["./node_modules/@types", "./src/types"],
+    "types": ["node"],
 
     /* ---- Declaration - Genera tipos .d.ts ---- */
     "declaration": false,
@@ -37,15 +41,18 @@
 
     /* ---- Mapas de depuración ---- */
     "sourceMap": true /* Genera archivos .map para depurar TS en Node */,
-    "inlineSourceMap": false
+    "inlineSourceMap": false,
+
+    "paths": {
+      "@/*": ["./src/*"],
+      "@config/*": ["./src/config/*"],
+      "@modules/*": ["./src/modules/*"],
+      "@middlewares/*": ["./src/middlewares/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@prisma-client": ["./src/prisma/client"],
+      "@tests/*": ["./src/tests/*"]
+    }
   },
-  "include": ["src"],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "**/*.test.ts",
-    "**/*.spec.ts",
-    "prisma/seed.ts",
-    "prisma/seeds/**"
-  ]
+  "include": ["src", "src/types/express.d.ts"],
+  "exclude": ["node_modules", "dist", "prisma"]
 }

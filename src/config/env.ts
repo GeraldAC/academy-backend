@@ -1,9 +1,13 @@
 import { z } from 'zod';
 import dotenv from 'dotenv';
 
-dotenv.config();
+// Carga .env.test si NODE_ENV=test, si no carga .env normal
+dotenv.config({
+  path: process.env['NODE_ENV'] === 'test' ? '.env.test' : '.env',
+});
 
 const envSchema = z.object({
+  NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
   PORT: z.string().default('3000'),
   DATABASE_URL: z.string().url(),
   DIRECT_URL: z.string().url(),
