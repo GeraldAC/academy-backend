@@ -64,7 +64,7 @@ export async function seedUsers(
     });
   }
 
-  // Admins | Test: claude.kessler785@unsaac.edu.pe | Admin123!
+  // Admins | Test: bernadine.schneider965@unsaac.edu.pe | Admin123!
   for (let i = 0; i < admins; i++) {
     const { firstName, lastName } = randomFullName();
     const email = emails[idx];

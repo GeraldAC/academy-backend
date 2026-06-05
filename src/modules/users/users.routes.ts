@@ -18,8 +18,16 @@ router.get('/stats', controller.getUserStats.bind(controller));
 // RUTAS DE PERFIL (usuario autenticado)
 // ==========================================
 router.get('/me', controller.getMyProfile.bind(controller));
-router.put('/me', validate(UserValidators.updateProfile), controller.updateMyProfile.bind(controller));
-router.put('/me/password', validate(UserValidators.updatePassword), controller.updateMyPassword.bind(controller));
+router.put(
+  '/me',
+  validate(UserValidators.updateProfile),
+  controller.updateMyProfile.bind(controller)
+);
+router.put(
+  '/me/password',
+  validate(UserValidators.updatePassword),
+  controller.updateMyPassword.bind(controller)
+);
 
 // ==========================================
 // RUTAS DE ADMINISTRACIÓN (gestión de usuarios)

@@ -13,6 +13,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
+    "test:detailed": "jest --verbose",
     "lint": "eslint \"{src,prisma}/**/*.{ts,js}\"",
     "lint:fix": "eslint \"{src,prisma}/**/*.{ts,js}\" --fix",
     "typecheck": "tsc --noEmit && tsc -p prisma/tsconfig.json --noEmit",

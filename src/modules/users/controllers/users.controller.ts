@@ -6,7 +6,6 @@ import { Role } from '@prisma/client';
 const service = new UsersService();
 
 export class UsersController {
-
   // ==================== CRUD DE USUARIOS (ADMIN) ====================
 
   // POST /api/users - Crear usuario
@@ -18,7 +17,7 @@ export class UsersController {
       if (!email || !password || !firstName || !lastName || !dni || !role) {
         return res.status(400).json({
           success: false,
-          message: 'Todos los campos obligatorios deben ser completados'
+          message: 'Todos los campos obligatorios deben ser completados',
         });
       }
 
@@ -26,7 +25,7 @@ export class UsersController {
       if (!/^\d{8}$/.test(dni)) {
         return res.status(400).json({
           success: false,
-          message: 'El DNI debe tener 8 dígitos'
+          message: 'El DNI debe tener 8 dígitos',
         });
       }
 
@@ -35,7 +34,7 @@ export class UsersController {
       if (!emailRegex.test(email)) {
         return res.status(400).json({
           success: false,
-          message: 'Email inválido'
+          message: 'Email inválido',
         });
       }
 
@@ -43,7 +42,7 @@ export class UsersController {
       if (!['STUDENT', 'TEACHER', 'ADMIN'].includes(role)) {
         return res.status(400).json({
           success: false,
-          message: 'Rol inválido. Debe ser STUDENT, TEACHER o ADMIN'
+          message: 'Rol inválido. Debe ser STUDENT, TEACHER o ADMIN',
         });
       }
 
@@ -51,7 +50,7 @@ export class UsersController {
       if (password.length < 6) {
         return res.status(400).json({
           success: false,
-          message: 'La contraseña debe tener al menos 6 caracteres'
+          message: 'La contraseña debe tener al menos 6 caracteres',
         });
       }
 
@@ -62,20 +61,19 @@ export class UsersController {
         lastName,
         dni,
         role: role as Role,
-        phone
+        phone,
       });
 
       res.status(201).json({
         success: true,
         message: 'Usuario creado exitosamente',
-        data: user
+        data: user,
       });
-
     } catch (error: any) {
       console.error('Error en createUser:', error);
       res.status(400).json({
         success: false,
-        message: error.message || 'Error al crear usuario'
+        message: error.message || 'Error al crear usuario',
       });
     }
   }
@@ -84,7 +82,7 @@ export class UsersController {
   async getUsers(req: Request, res: Response) {
     try {
       const { role, isActive, search, page, limit } = req.query;
-      
+
       const filters: any = {};
 
       if (role) filters.role = role as Role;
@@ -97,14 +95,13 @@ export class UsersController {
 
       res.json({
         success: true,
-        data: result
+        data: result,
       });
-
     } catch (error: any) {
       console.error('Error en getUsers:', error);
       res.status(500).json({
         success: false,
-        message: error.message || 'Error al obtener usuarios'
+        message: error.message || 'Error al obtener usuarios',
       });
     }
   }
@@ -116,14 +113,13 @@ export class UsersController {
 
       res.json({
         success: true,
-        data: stats
+        data: stats,
       });
-
     } catch (error: any) {
       console.error('Error en getUserStats:', error);
       res.status(500).json({
         success: false,
-        message: error.message || 'Error al obtener estadísticas'
+        message: error.message || 'Error al obtener estadísticas',
       });
     }
   }
@@ -136,14 +132,13 @@ export class UsersController {
 
       res.json({
         success: true,
-        data: user
+        data: user,
       });
-
     } catch (error: any) {
       console.error('Error en getUserById:', error);
       res.status(404).json({
         success: false,
-        message: error.message || 'Usuario no encontrado'
+        message: error.message || 'Usuario no encontrado',
       });
     }
   }
@@ -151,6 +146,7 @@ export class UsersController {
   // PUT /api/users/:id - Actualizar usuario
   async updateUser(req: Request, res: Response) {
     try {
+      console.log(req.params);
       const { id } = req.params;
       const updateData = req.body;
 
@@ -159,14 +155,13 @@ export class UsersController {
       res.json({
         success: true,
         message: 'Usuario actualizado exitosamente',
-        data: user
+        data: user,
       });
-
     } catch (error: any) {
       console.error('Error en updateUser:', error);
       res.status(400).json({
         success: false,
-        message: error.message || 'Error al actualizar usuario'
+        message: error.message || 'Error al actualizar usuario',
       });
     }
   }
@@ -180,14 +175,13 @@ export class UsersController {
       res.json({
         success: true,
         message: `Usuario ${user.isActive ? 'activado' : 'desactivado'} exitosamente`,
-        data: user
+        data: user,
       });
-
     } catch (error: any) {
       console.error('Error en toggleUserStatus:', error);
       res.status(400).json({
         success: false,
-        message: error.message || 'Error al cambiar estado del usuario'
+        message: error.message || 'Error al cambiar estado del usuario',
       });
     }
   }
@@ -200,14 +194,13 @@ export class UsersController {
 
       res.json({
         success: true,
-        message: result.message
+        message: result.message,
       });
-
     } catch (error: any) {
       console.error('Error en deleteUser:', error);
       res.status(400).json({
         success: false,
-        message: error.message || 'Error al eliminar usuario'
+        message: error.message || 'Error al eliminar usuario',
       });
     }
   }
@@ -221,7 +214,7 @@ export class UsersController {
       if (!newPassword || newPassword.length < 6) {
         return res.status(400).json({
           success: false,
-          message: 'La contraseña debe tener al menos 6 caracteres'
+          message: 'La contraseña debe tener al menos 6 caracteres',
         });
       }
 
@@ -229,14 +222,13 @@ export class UsersController {
 
       res.json({
         success: true,
-        message: result.message
+        message: result.message,
       });
-
     } catch (error: any) {
       console.error('Error en resetPassword:', error);
       res.status(400).json({
         success: false,
-        message: error.message || 'Error al resetear contraseña'
+        message: error.message || 'Error al resetear contraseña',
       });
     }
   }
@@ -251,14 +243,13 @@ export class UsersController {
 
       res.json({
         success: true,
-        data: user
+        data: user,
       });
-
     } catch (error: any) {
       console.error('Error en getMyProfile:', error);
       res.status(500).json({
         success: false,
-        message: error.message || 'Error al obtener perfil'
+        message: error.message || 'Error al obtener perfil',
       });
     }
   }
@@ -278,14 +269,13 @@ export class UsersController {
       res.json({
         success: true,
         message: 'Perfil actualizado exitosamente',
-        data: user
+        data: user,
       });
-
     } catch (error: any) {
       console.error('Error en updateMyProfile:', error);
       res.status(400).json({
         success: false,
-        message: error.message || 'Error al actualizar perfil'
+        message: error.message || 'Error al actualizar perfil',
       });
     }
   }
@@ -299,14 +289,14 @@ export class UsersController {
       if (!currentPassword || !newPassword) {
         return res.status(400).json({
           success: false,
-          message: 'Se requiere la contraseña actual y la nueva contraseña'
+          message: 'Se requiere la contraseña actual y la nueva contraseña',
         });
       }
 
       if (newPassword.length < 6) {
         return res.status(400).json({
           success: false,
-          message: 'La nueva contraseña debe tener al menos 6 caracteres'
+          message: 'La nueva contraseña debe tener al menos 6 caracteres',
         });
       }
 
@@ -315,14 +305,13 @@ export class UsersController {
 
       res.json({
         success: true,
-        message: result.message
+        message: result.message,
       });
-
     } catch (error: any) {
       console.error('Error en updateMyPassword:', error);
       res.status(400).json({
         success: false,
-        message: error.message || 'Error al actualizar contraseña'
+        message: error.message || 'Error al actualizar contraseña',
       });
     }
   }
